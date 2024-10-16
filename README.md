@@ -1,4 +1,3 @@
-```markdown
 ### Assignment: Expand the WebSocket Server and Client
 
 **Objective:** Enhance your existing Deno WebSocket server and client to create a simple chat application.
@@ -27,4 +26,3 @@
 - Instructions for running the server and client together.
 
 **Good luck!**
-```
