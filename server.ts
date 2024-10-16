@@ -9,11 +9,11 @@ const handler: (req: Request) => Response | Promise<Response> = req => {
 
   // Listen for "message" events on the WebSocket connection
   socket.addEventListener("message", (event) => {
+    console.log("Received from client:", event.data);
+    console.log(event.data.name)
     // If the received message is "ping", send back "pong"
-    if (event.data === "ping") {
-      socket.send("pong");
-      socket.send("pong");
-    }
+    socket.send("pong");
+    
   });
 
   // Return the WebSocket response, completing the upgrade

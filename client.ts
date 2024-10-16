@@ -1,8 +1,8 @@
 const ws = new WebSocket("ws://localhost:8000");
-
+const data = {name: "user1"}
 ws.onopen = () => {
   console.log("Connected to WebSocket server");
-  ws.send("ping");  // Send a "ping" message to the server
+  ws.send(JSON.stringify(data));  // Send a "ping" message to the server
 };
 
 ws.onmessage = (event) => {
