@@ -1,4 +1,4 @@
-Deno.serve(req => {
+const handler: (req: Request) => Response | Promise<Response> = req => {
   // Check if the incoming request is asking to upgrade to a WebSocket
   if (req.headers.get("upgrade") != "websocket") {
     return new Response(null, {status: 501});  // Return 501 Not Implemented if it's not a WebSocket request
@@ -18,4 +18,6 @@ Deno.serve(req => {
 
   // Return the WebSocket response, completing the upgrade
   return response;
-});
+};
+
+Deno.serve(handler)
