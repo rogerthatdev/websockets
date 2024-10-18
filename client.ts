@@ -23,6 +23,12 @@ ws.onopen = () => {
 
 ws.onmessage = (event) => {
   console.log("Server:", event.data); // Log the response
+  // TODO: Right now, the prompt only triggers after the server sends a message,
+  // and not immediately when the client connects. This can be okay depending on
+  // the flow you're aiming for, but if you want the client to send a message 
+  // right after connection (before receiving anything from the server), you 
+  // might want to call the message() function inside ws.onopen or create a loop
+  // to continuously accept input from the user.
   const input = message(id, prompt("Enter a message: "));
   ws.send(input);
   console.log(`Client: ${input}`);
@@ -32,3 +38,4 @@ ws.onclose = () => {
   console.log("Disconnected from WebSocket server");
 };
 
+// TODO: Error handling: add a ws.onerror block to catch and log WebSocket errors.
