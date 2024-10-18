@@ -2,27 +2,27 @@
 const { randomBytes } = await import("node:crypto");
 const ws = new WebSocket("ws://localhost:8000");
 
-const generateId = () => {
+const generateId = (): string => {
   return randomBytes(5).toString("hex").slice(0, 5);
 };
 
-const id = generateId();
+const id: string = generateId();
 
-const message = (id: string, content: string): string => {
+const message: (id: string, content: string ) => string = (id, content) => {
   const data = { id: id, message: content };
   return JSON.stringify(data);
 }
 
-ws.onopen = () => {
-  const data = { id: id, message: "Hello"};
+ws.onopen = (): void => {
+  const data: {id: string, message: string} = { id: id, message: "Hello"};
   console.log("Connected to WebSocket server");
-  const msg = JSON.stringify(data);
+  const msg: string = JSON.stringify(data);
   ws.send(msg);
   console.log(`Client: ${msg}`);
 };
 // TODO: make this client interactive
 
-ws.onmessage = (event) => {
+ws.onmessage = (event: MessageEvent): void => {
   console.log("Server:", event.data); // Log the response
   // TODO: Right now, the prompt only triggers after the server sends a message,
   // and not immediately when the client connects. This can be okay depending on
