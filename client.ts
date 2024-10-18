@@ -1,3 +1,4 @@
+// TODO: add types!
 const { randomBytes } = await import("node:crypto");
 const ws = new WebSocket("ws://localhost:8000");
 
@@ -7,13 +8,13 @@ const generateId = () => {
 
 const id = generateId();
 
-const message = (id, content) => {
+const message = (id: string, content: string): string => {
   const data = { id: id, message: content };
   return JSON.stringify(data);
 }
 
 ws.onopen = () => {
-  const data = { id: id };
+  const data = { id: id, message: "Hello"};
   console.log("Connected to WebSocket server");
   const msg = JSON.stringify(data);
   ws.send(msg);
