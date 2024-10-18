@@ -39,4 +39,8 @@ ws.onclose = () => {
   console.log("Disconnected from WebSocket server");
 };
 
-// TODO: Error handling: add a ws.onerror block to catch and log WebSocket errors.
+
+ws.onerror = (error: Event): void => {
+  console.error("WebSocket error:", error);
+};
+ 
