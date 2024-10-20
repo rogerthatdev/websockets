@@ -30,7 +30,7 @@ ws.onmessage = (event: MessageEvent): void => {
   // right after connection (before receiving anything from the server), you 
   // might want to call the message() function inside ws.onopen or create a loop
   // to continuously accept input from the user.
-  const input = message(id, prompt("Enter a message: "));
+  const input = message(id, prompt("Enter a message: ") || "");
   ws.send(input);
   console.log(`Client: ${input}`);
 };
