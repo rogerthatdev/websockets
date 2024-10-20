@@ -8,13 +8,13 @@ const generateId = (): string => {
 
 const id: string = generateId();
 
-const message: (id: string, content: string ) => string = (id, content) => {
+const message = (id: string, content: string): string => {
   const data = { id: id, message: content };
   return JSON.stringify(data);
 }
 
 ws.onopen = (): void => {
-  const data: {id: string, message: string} = { id: id, message: "Hello"};
+  const data: {id: string, message: string} = { id, message: "Hello"};
   console.log("Connected to WebSocket server");
   const msg: string = JSON.stringify(data);
   ws.send(msg);
@@ -35,7 +35,7 @@ ws.onmessage = (event: MessageEvent): void => {
   console.log(`Client: ${input}`);
 };
 
-ws.onclose = () => {
+ws.onclose = (): void => {
   console.log("Disconnected from WebSocket server");
 };
 
