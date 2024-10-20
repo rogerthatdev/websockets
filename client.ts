@@ -1,6 +1,6 @@
 // TODO: add types!
 const { randomBytes } = await import("node:crypto");
-const ws = new WebSocket("ws://localhost:8000");
+const ws: WebSocket = new WebSocket("ws://localhost:8000");
 
 const generateId = (): string => {
   return randomBytes(5).toString("hex").slice(0, 5);
@@ -8,10 +8,23 @@ const generateId = (): string => {
 
 const id: string = generateId();
 
+// Prompt the user for input and send the message to the server
+const promptUserForMessage = (): void => {
+  const userMessage = (prompt("Enter a message: ") || "").trim(); // Handle null from prompt
+  if (userMessage) {  // Only send non-empty messages
+    const input = message(id, userMessage);
+    ws.send(input);
+    console.log(`Client: ${input}`);
+  } else {
+    console.log("Message was empty, not sent.");
+    promptUserForMessage();
+  }
+};
+
 const message = (id: string, content: string): string => {
-  const data = { id: id, message: content };
+  const data = { id, message: content };
   return JSON.stringify(data);
-}
+};
 
 ws.onopen = (): void => {
   const data: {id: string, message: string} = { id, message: "Hello"};
@@ -19,26 +32,19 @@ ws.onopen = (): void => {
   const msg: string = JSON.stringify(data);
   ws.send(msg);
   console.log(`Client: ${msg}`);
+  promptUserForMessage();
+
 };
 // TODO: make this client interactive
 
 ws.onmessage = (event: MessageEvent): void => {
   console.log("Server:", event.data); // Log the response
-  // TODO: Right now, the prompt only triggers after the server sends a message,
-  // and not immediately when the client connects. This can be okay depending on
-  // the flow you're aiming for, but if you want the client to send a message 
-  // right after connection (before receiving anything from the server), you 
-  // might want to call the message() function inside ws.onopen or create a loop
-  // to continuously accept input from the user.
-  const input = message(id, prompt("Enter a message: ") || "");
-  ws.send(input);
-  console.log(`Client: ${input}`);
+  promptUserForMessage();
 };
 
 ws.onclose = (): void => {
   console.log("Disconnected from WebSocket server");
 };
-
 
 ws.onerror = (error: Event): void => {
   console.error("WebSocket error:", error);
